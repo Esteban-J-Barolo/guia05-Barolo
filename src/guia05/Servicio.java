@@ -5,34 +5,36 @@ import java.time.LocalDate;
 public abstract class Servicio implements Contratable{
 	
 	protected boolean urgente;
-	protected LocalDate dia;
-	protected int hora_inicio;
-	protected int hora_fin;
 	protected String oficio;
-	protected Trabajador trabajador;
+	protected String nombre;
 	
-	public boolean finalizado() {
-		if (hora_fin == 0) {
-			return false;
-		}else {
-			return true;
-		}
+	protected Trabajador trabajador;
+	protected LocalDate dia_inicio;
+	protected LocalDate dia_fin;
+	
+	public Servicio clone() {
+		return this.clone();
 	}
 	
-	public float costo() {
-		if (urgente) {
-			return (float) (trabajador.costo(hora_fin - hora_inicio) * 1.5);
-		}else {
-			return (trabajador.costo(hora_fin - hora_inicio));
-		}
+	public abstract float costo();
+	
+	public boolean finalizado(){
 		
+		return !(dia_fin.equals(null));
 	}
 
-	public void trabajador(Trabajador trabaja) {
-		if (! trabajador.equals(null)) {
-			trabajador = trabaja;
+	public boolean oficioIgual(String oficio) {
+		
+		return this.oficio.equals(oficio);
+	}
+	
+	public abstract Servicio comenzar(LocalDate dia_inicio, boolean urgencia, Trabajador trabajador);
+	
+	public boolean disponible(LocalDate dia){
+		if (this.finalizado()) {
+			return !(this.dia_inicio.isBefore(dia) && this.dia_fin.isAfter(dia));
 		}else {
-			//error
+			return false;
 		}
 	}
 
