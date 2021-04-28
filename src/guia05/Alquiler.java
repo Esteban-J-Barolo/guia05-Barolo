@@ -3,6 +3,8 @@ package guia05;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
+import exceptions.HerramientaOcupadaException;
+
 public class Alquiler implements Contratable{
 	
 	private LocalDate dia_inicio;
@@ -24,7 +26,8 @@ public class Alquiler implements Contratable{
 	
 	@Override
 	public float costo() {
-		return (herramienta.costo() * ChronoUnit.DAYS.between(dia_inicio, dia_entrega));
+		if (this.finalizado()) return (herramienta.costo() * ChronoUnit.DAYS.between(dia_inicio, dia_entrega));
+		return (herramienta.costo() * ChronoUnit.DAYS.between(dia_inicio, LocalDate.now()));
 	}
 	
 	public boolean enMora() {

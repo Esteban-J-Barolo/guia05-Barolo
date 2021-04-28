@@ -12,30 +12,15 @@ public abstract class Servicio implements Contratable{
 	protected LocalDate dia_inicio;
 	protected LocalDate dia_fin;
 	
-	public Servicio clone() {
-		return this.clone();
-	}
-	
 	public abstract float costo();
 	
+	public abstract Servicio comenzar(LocalDate dia_inicio, boolean urgencia, Trabajador trabajador);
+
 	public boolean finalizado(){
-		
-		return !(dia_fin.equals(null));
+		return !(this.dia_fin == null);
 	}
 
 	public boolean oficioIgual(String oficio) {
-		
 		return this.oficio.equals(oficio);
 	}
-	
-	public abstract Servicio comenzar(LocalDate dia_inicio, boolean urgencia, Trabajador trabajador);
-	
-	public boolean disponible(LocalDate dia){
-		if (this.finalizado()) {
-			return !(this.dia_inicio.isBefore(dia) && this.dia_fin.isAfter(dia));
-		}else {
-			return false;
-		}
-	}
-
 }

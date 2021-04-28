@@ -1,50 +1,59 @@
 package guia05;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+
+import exceptions.AlquilerNoEntregadoException;
+import exceptions.HerramientaNoDisponibleException;
 
 public class Usuario extends Persona {
 	private int tarjeta;
 	private ReparaFix empresa;
 	private ArrayList<Contratable> contratado = new ArrayList<>();
 	
-	public Usuario(String nombre, String email, int tarjeta, ReparaFix empresa) {
+	public Usuario(String nombre, String mail, int tarjeta, ReparaFix empresa) {
 		this.nombre = nombre;
-		this.email = email;
+		this.mail = mail;
 		this.tarjeta = tarjeta;
 		this.empresa = empresa;
 	}
 	
 	public void pagar() {
-		System.out.println("Pagado con tarjeta N°: " + this.tarjeta);
-	}
-	
-	public void contratar(Servicio servicio) {
-		Servicio servClone = servicio.clone();
-		try {
-			contratado.add(empresa.contratar(servClone));
-		} catch (TrabajadorNoDisponibleException e) {
-			e.printExcepcion();
+		int cost=0;
+		for (Contratable serv : contratado) {
+			cost += serv.costo();
 		}
-		
+		System.out.println("$" + cost + " Pagado con tarjeta N°: " + this.tarjeta);
 	}
 	
-	public void contratar(Alquiler servicio) 
+	public void contratar(String servicio, String oficio, Boolean urgencia) {
+		contratado.add(empresa.contratar( servicio,  oficio,  urgencia));
+	}
+	
+	public void contratar(ServicioEstandar servicio, Boolean urgencia) {
+		contratado.add(empresa.contratar( servicio,  urgencia));
+	}
+	
+	public void contratar(String herramienta, LocalDate dia_inicial, int cant_dias) 
 			throws AlquilerNoEntregadoException {
-		Alquiler alqClone = servicio.clone();
 		int cant = 0;
 		for (Contratable alquiler : contratado) {
-			if(alquiler.getClass().isInstance(Alquiler.class)) cant++;
+			if(alquiler.getClass() == Alquiler.class ) cant++;
 		}
-		if (cant > 2) {
+		if (cant >= 2) {
 			//excepcion ya tiene el maximo de alquileres posibles
 			throw new AlquilerNoEntregadoException();
 		}else {
 			try {
-				contratado.add(empresa.contratar(alqClone));
-			} catch (TrabajadorNoDisponibleException e) {
+				contratado.add(empresa.contratar(herramienta, dia_inicial, cant_dias));
+			} catch (HerramientaNoDisponibleException e) {
 				e.printExcepcion();
 			}
 		}
+	}
+
+	public boolean es(String nombre, String mail) {
+		return (this.nombre.equals(nombre) && this.mail.equals(mail));
 	}
 
 }

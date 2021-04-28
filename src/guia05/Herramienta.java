@@ -27,4 +27,9 @@ public class Herramienta {
 		return disponible;
 	}
 
+	public String nombre() {
+		// TODO Auto-generated method stub
+		return nombre;
+	}
+
 }

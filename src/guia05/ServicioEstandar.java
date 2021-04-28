@@ -31,20 +31,20 @@ public class ServicioEstandar extends Servicio {
 	public ServicioEstandar comenzar(LocalDate dia_inicio, boolean urgencia, Trabajador trabajador) {
 		this.dia_inicio = dia_inicio;
 		this.urgente = urgencia;
-		try {
-			this.trabajador = trabajador.aTrabajar(dia_inicio, this);
-		} catch (AgendaOcupadaException e) {
-			e.printExcepcion();
-		} catch (OficioNoCoincideException e) {
-			e.printExcepcion();
-		}
+		this.trabajador = trabajador;
 		return this;
 	}
 	
-	public ServicioEstandar finalizar(LocalDate dia_fin, int horas_empleadas) {
+	public void finalizar(LocalDate dia_fin, int horas_empleadas) {
 		this.dia_fin = dia_fin;
 		this.horas_empleadas = horas_empleadas;
-		return this;
 	}
-
+	
+	public boolean nombreIgual(String nombre) {
+		return this.nombre.equals(nombre);
+	}
+	
+	public ServicioEstandar clonar() {
+		return new ServicioEstandar(oficio, nombre, horas_empleadas, horas_empleadas);
+	}
 }

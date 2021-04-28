@@ -1,4 +1,4 @@
-package guia05;
+package exceptions;
 
 public class AlquilerNoEntregadoException extends Exception {
 	

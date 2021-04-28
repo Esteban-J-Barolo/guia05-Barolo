@@ -24,22 +24,15 @@ public class ServicioPersonalizado extends Servicio {
 	public ServicioPersonalizado comenzar(LocalDate dia_inicio, boolean urgencia, Trabajador trabajador) {
 		this.dia_inicio = dia_inicio;
 		this.urgente = urgencia;
-		try {
-			this.trabajador = trabajador.aTrabajar(dia_inicio, this);
-		} catch (AgendaOcupadaException e) {
-			e.printExcepcion();
-		} catch (OficioNoCoincideException e) {
-			e.printExcepcion();
-		}
+		this.trabajador = trabajador;
 		return this;
 	}
 	
-	public ServicioPersonalizado finalizar(LocalDate dia_fin, float valor_presupuestado, float costo_materiales, float costo_transporte) {
+	public void finalizar(LocalDate dia_fin, float valor_presupuestado, float costo_materiales, float costo_transporte) {
 		this.dia_fin = dia_fin;
 		this.valor_presupuestado = valor_presupuestado;
 		this.costo_materiales = costo_materiales;
 		this.costo_transporte = costo_transporte;
-		return this;
 	}
 	
 }
